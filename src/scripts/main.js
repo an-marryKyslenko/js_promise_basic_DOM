@@ -2,29 +2,37 @@
 
 const logo = document.querySelector('.logo');
 
-if (logo) {
+function createPromise(message) {
+  return new Promise((resolve, reject) => {
+    if (!message) {
+      resolve('Promise was resolved!');
+    } else {
+      setTimeout(() => reject(message), 3000);
+    }
+  });
+}
+
+function handleLogoClick() {
   const messageDiv = document.createElement('div');
 
   messageDiv.classList.add('message');
 
-  function handleLogoClick() {
-    setTimeout(() =>{
-    const promise1 = Promise.resolve('Promise was resolved!');
+  const promise1 = createPromise();
+  const promise2 = createPromise('Promise was rejected!');
 
-      promise1.then((result) => {
-        messageDiv.innerText = result;
-        document.body.appendChild(messageDiv);
-      });
-    }, 0)
+  promise1.then((result) => {
+    messageDiv.innerText = result;
+    document.body.appendChild(messageDiv);
+  });
 
-    setTimeout(() => {
-      const promise2 = Promise.reject(new Error('Promise was rejected!'));
-      promise2.catch((error) => {
-        messageDiv.classList.add('error-message');
-        messageDiv.innerText = error.message;
-      });
-    }, 3000);
-  }
+  setTimeout(() => {
+    promise2.catch((error) => {
+      messageDiv.classList.add('error-message');
+      messageDiv.innerText = error;
+    });
+  }, 3000);
+}
 
+if (logo) {
   logo.addEventListener('click', handleLogoClick);
 }
