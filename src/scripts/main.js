@@ -1,26 +1,30 @@
 'use strict';
 
 const logo = document.querySelector('.logo');
-const messageDiv = document.createElement('div');
 
-messageDiv.classList.add('message');
+if (logo) {
+  const messageDiv = document.createElement('div');
 
-function handler() {
-  const promise1 = Promise.resolve('Promise was resolved!');
+  messageDiv.classList.add('message');
 
-  promise1.then((result) => {
-    messageDiv.innerText = result;
-    document.body.appendChild(messageDiv);
-  });
+  function handleLogoClick() {
+    setTimeout(() =>{
+    const promise1 = Promise.resolve('Promise was resolved!');
 
-  const promise2 = Promise.reject(new Error('Promise was rejected!'));
+      promise1.then((result) => {
+        messageDiv.innerText = result;
+        document.body.appendChild(messageDiv);
+      });
+    }, 0)
 
-  promise2.catch((error) => {
     setTimeout(() => {
-      messageDiv.classList.add('error-message');
-      messageDiv.innerText = error.message;
+      const promise2 = Promise.reject(new Error('Promise was rejected!'));
+      promise2.catch((error) => {
+        messageDiv.classList.add('error-message');
+        messageDiv.innerText = error.message;
+      });
     }, 3000);
-  });
-}
+  }
 
-logo.addEventListener('click', handler);
+  logo.addEventListener('click', handleLogoClick);
+}
